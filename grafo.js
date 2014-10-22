@@ -84,8 +84,10 @@ Grafo.prototype = {
 	},
 
 	eCompleto: function(){
+		if(this.ordem() == 0)
+			return false; // Nenhum vértice no grafo
 		var qtd = this.ordem()-1;
-		for(var vertice of vertices){
+		for(var vertice of this.vertices){
 			if(qtd != this.grau(vertice))
 				return false; // Algum vértice com grau diferente de ordem-1
 		}
