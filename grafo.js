@@ -20,8 +20,7 @@ Grafo.prototype = {
 		if(!(this.vertices.has(vertice)))
 			return false; // O vértice já não está no grafo
 		this.vertices.delete(vertice); // Remove o vértice do grafo
-		var iterador = vertice.arestas.values();
-		for(var adjacente in iterador){ // Retira cada aresta que ligava ao vértice
+		for(var adjacente of vertice.arestas){ // Retira cada aresta que ligava ao vértice
 			adjacente.arestas.delete(vertice);
 			vertice.arestas.delete(adjacente);
 		}
@@ -62,21 +61,40 @@ Grafo.prototype = {
 	},
 
 	adjacentes: function(vertice){
-		return this.vertice.arestas; // Retorna um set com todos os vertices adjacentes ao vertice
+		return vertice.arestas; // Retorna um set com todos os vertices adjacentes ao vertice
 	},
 
 	grau: function(vertice){
-		return this.vertice.arestas.size; // Retorna a quantidade de vertices adjacentes ao vertice
+		return vertice.arestas.size; // Retorna a quantidade de vertices adjacentes ao vertice
 	},
 
 	//Acoes Derivadas
-	eRegular: function(){},
+	eRegular: function(){
+		if(this.ordem() == 0)
+			return false; // Nenhum vértice no grafo
+		var qtd = -1;
+		for(var vertice of this.vertices){
+			window.alert(this.grau(vertice));
+			if(qtd == -1)
+				qtd = this.grau(vertice);
+			else if(qtd != this.grau(vertice))
+				return false; // Algum vértice com grau diferente dos outros
+		}
+		return true; // Todos vértices com mesmo grau
+	},
 
-	eCompleto: function(){},
+	eCompleto: function(){
+		var qtd = this.ordem()-1;
+		for(var vertice of vertices){
+			if(qtd != this.grau(vertice))
+				return false; // Algum vértice com grau diferente de ordem-1
+		}
+		return true; // Todos vértices com grau igual a ordem-1
+	},
 
 	fechoTransitivo: function(vertice){},
 
 	eConexo: function(){},
-	
+
 	eArvore: function(){}
 };
