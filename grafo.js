@@ -41,31 +41,42 @@ Grafo.prototype = {
 	desconecta: function(verticeA,verticeB){
 		if(!(this.vertices.has(verticeA) && this.vertices.has(verticeB)))
 			return false; // Algum dos vértices não está no grafo
-		if()
+		if(!(verticeA.arestas.has(verticeB)))
+			return false; // Os vértices não está conectados
 		verticeA.arestas.delete(verticeB);
 		verticeB.arestas.delete(verticeA);
 		return true; // A conexão entre os dois vértices foi desfeita
 	},
+
 	ordem: function(){
-		return this.vertices.size; // Retorna a quantidade de 
+		return this.vertices.size; // Retorna a quantidade de vértices no grafo
 	},
+
 	todosVertices: function(){
-		return this.vertices;
+		return this.vertices; // Retorna um set com todos os vertices do grafo
 	},
+
 	umVertice: function(){
 		var iterador = this.vertices.values();
 		return iterador.next().value; // Retorna o primeiro vertice que o iterador trouxer
 	},
+
 	adjacentes: function(vertice){
-		return this.vertice.arestas;
+		return this.vertice.arestas; // Retorna um set com todos os vertices adjacentes ao vertice
 	},
+
 	grau: function(vertice){
-		return this.vertice.arestas.size;
+		return this.vertice.arestas.size; // Retorna a quantidade de vertices adjacentes ao vertice
 	},
+
 	//Acoes Derivadas
 	eRegular: function(){},
+
 	eCompleto: function(){},
+
 	fechoTransitivo: function(vertice){},
+
 	eConexo: function(){},
+	
 	eArvore: function(){}
 };
