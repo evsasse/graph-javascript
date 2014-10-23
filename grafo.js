@@ -86,7 +86,7 @@ Grafo.prototype = {
 	eCompleto: function(){
 		if(this.ordem() == 0)
 			return false; // Nenhum vértice no grafo
-		var qtd = this.ordem()-1;
+		var qtd = this.ordem()-1; // Ordem-1 é a quantidade esperada de conexões em cada vértice para ser completo
 		for(var vertice of this.vertices){
 			if(qtd != this.grau(vertice))
 				return false; // Algum vértice com grau diferente de ordem-1
@@ -94,9 +94,23 @@ Grafo.prototype = {
 		return true; // Todos vértices com grau igual a ordem-1
 	},
 
-	fechoTransitivo: function(vertice){},
+	fechoTransitivo: function(vertice){
+		var fecho = new Set(); // Novo conjunto onde será colocado o fecho transitivo
+		fecho.add(vertice); // Coloca o próprio vértice em seu fecho
+		for(var vertice of fecho){ // Percorre todos os vértices o fecho atual
+			for(var aresta of vertice.arestas){ // Percorre cada aresta do fecho atual
+				fecho.add(aresta); // Adiciona os vértices que foram alcaçados e não estavam no fecho
+			}
+		}
+		return fecho; // Retorna o conjunto dos vértices alcançáveis
+	},
 
-	eConexo: function(){},
+	eConexo: function(){
+		var qtd = this.fechoTransitivo(this.umVertice()).size; // Pega o tamanho de um fecho transitivo qualquer
+		if(qtd != this.ordem()) // Se a ordem e o tamanho do fecho são diferentes
+			return false; // Não é conexo, o fecho percorreu apenas uma componente conexa das várias
+		return true; // É conexo, o fecho transitivo de um vértice é todo o grafo
+	},
 
 	eArvore: function(){}
 };
