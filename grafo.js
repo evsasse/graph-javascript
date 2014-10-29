@@ -9,11 +9,10 @@ var Vertice = function(id){
 
 Grafo.prototype = {
 	//Ações Básicas
-	adicionaVertice: function(vertice){
-		if(this.vertices.has(vertice))
-			return false; // O vértice já está no grafo
+	adicionaVertice: function(id){
+		var vertice = new Vertice(id);
 		this.vertices.add(vertice);
-		return true; // O vértice foi adicionado
+		return vertice; // O vértice foi adicionado
 	},
 
 	removeVertice: function(vertice){
