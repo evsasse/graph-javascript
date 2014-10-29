@@ -30,6 +30,8 @@ Grafo.prototype = {
 	conecta: function(verticeA,verticeB){
 		if(!(this.vertices.has(verticeA) && this.vertices.has(verticeB)))
 			return false; // Algum dos vértices não está no grafo
+		if(verticeA == verticeB)
+			return false; // Tentando conectar o vértice a ele mesmo
 		if(verticeA.arestas.has(verticeB))
 			return false; // Os vértices já estão conectados
 		verticeA.arestas.add(verticeB); // Pode-se adicionar um valor a ligação utilizando um Map no lugar de Set, no caso de um grafo valorado
@@ -74,7 +76,6 @@ Grafo.prototype = {
 			return false; // Nenhum vértice no grafo
 		var qtd = -1;
 		for(var vertice of this.vertices){
-			window.alert(this.grau(vertice));
 			if(qtd == -1)
 				qtd = this.grau(vertice);
 			else if(qtd != this.grau(vertice))
@@ -97,7 +98,7 @@ Grafo.prototype = {
 	fechoTransitivo: function(vertice){
 		var fecho = new Set(); // Novo conjunto onde será colocado o fecho transitivo
 		fecho.add(vertice); // Coloca o próprio vértice em seu fecho
-		for(var vertice of fecho){ // Percorre todos os vértices o fecho atual
+		for(var vertice of fecho){ // Percorre todos os vértices do fecho atual
 			for(var aresta of vertice.arestas){ // Percorre cada aresta do fecho atual
 				fecho.add(aresta); // Adiciona os vértices que foram alcaçados e não estavam no fecho
 			}
@@ -106,11 +107,28 @@ Grafo.prototype = {
 	},
 
 	eConexo: function(){
+		if(this.ordem() == 0)
+			return false; // Não há vértices no grafo
 		var qtd = this.fechoTransitivo(this.umVertice()).size; // Pega o tamanho de um fecho transitivo qualquer
 		if(qtd != this.ordem()) // Se a ordem e o tamanho do fecho são diferentes
 			return false; // Não é conexo, o fecho percorreu apenas uma componente conexa das várias
 		return true; // É conexo, o fecho transitivo de um vértice é todo o grafo
 	},
 
-	eArvore: function(){}
+	eArvore: function(){
+		if(this.ordem() == 0)
+			return false; // Não há vértices no grafo
+		var fecho = new Set(); // Novo conjunto onde será colocado o fecho transitivo
+		var qtd = 0; // Inicia onde serão contadas as arestas
+		fecho.add(this.umVertice()); // Coloca o próprio vértice em seu fecho
+		for(var vertice of fecho){ // Percorre todos os vértices do fecho atual
+			qtd = qtd + vertice.arestas.size; // Soma a quantidade de arestas
+			for(var aresta of vertice.arestas){ // Percorre cada aresta do vertice atual
+				fecho.add(aresta); // Adiciona os vértices que foram alcançados e não estavam no fecho
+			}
+		}
+		if((fecho.size == this.ordem()) && (this.ordem()-1 == qtd/2)) // Se é conexo e tem o número mínimo de arestas, ou seja não tem ciclos
+			return true; // Então é árvore
+		return false; // Não é árvore
+	}
 };
