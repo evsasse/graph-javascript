@@ -1,14 +1,59 @@
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 		<script src="grafo.js"></script>
 	</head>
 	<body>
 		<script>
+			// Cubo
 			var g = new Grafo();
+			// 8 vértices
+			var _a = g.adicionaVertice('a');
+			var _b = g.adicionaVertice('b');
+			var _c = g.adicionaVertice('c');
+			var _d = g.adicionaVertice('d');
+			var _e = g.adicionaVertice('e');
+			var _f = g.adicionaVertice('f');
+			var _g = g.adicionaVertice('g');
+			var _h = g.adicionaVertice('h');
+			// Conectados como um cubo
+			g.conecta(_a,_b);
+			g.conecta(_a,_c);
+			g.conecta(_a,_e);
+			g.conecta(_b,_d);
+			g.conecta(_b,_f);
+			g.conecta(_c,_d);
+			g.conecta(_c,_g);
+			g.conecta(_d,_h);
+			g.conecta(_e,_f);
+			g.conecta(_e,_g);
+			g.conecta(_f,_h);
+			g.conecta(_g,_h);
+			// Mensagem com o resultado
+			window.alert('Coloração aproximada de um Cubo = '+g.coloracaoAproximada());
 
-			var a = adicionarVertice('a');
-			var a = adicionarVertice(2);
-			var a = adicionarVertice('!!!');
+			// K3,3
+			var g = new Grafo();
+			// 6 vértices
+			var _a = g.adicionaVertice('a');
+			var _b = g.adicionaVertice('b');
+			var _c = g.adicionaVertice('c');
+			var _d = g.adicionaVertice('d');
+			var _e = g.adicionaVertice('e');
+			var _f = g.adicionaVertice('f');
+			// Conectados como K3,3
+			g.conecta(_a,_d);
+			g.conecta(_a,_e);
+			g.conecta(_a,_f);
+			g.conecta(_b,_d);
+			g.conecta(_b,_e);
+			g.conecta(_b,_f);
+			g.conecta(_c,_d);
+			g.conecta(_c,_e);
+			g.conecta(_c,_f);
+			//Mensagem com o resultado
+			window.alert('Coloração aproximada de um K3,3 = '+g.coloracaoAproximada());
+
 		</script>
 	</body>
 </html>

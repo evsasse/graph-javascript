@@ -129,5 +129,28 @@ Grafo.prototype = {
 		if((fecho.size == this.ordem()) && (this.ordem()-1 == qtd/2)) // Se é conexo e tem o número mínimo de arestas, ou seja não tem ciclos
 			return true; // Então é árvore
 		return false; // Não é árvore
+	},
+
+	coloracaoAproximada: function(){
+		if(this.ordem() == 0)
+			return 0; // Não há vértices no grafo
+		var cores = new Array();
+		for(var vertice of this.vertices){
+			var foiAdd = false;
+			for(var i=0;i<cores.length;i++){
+				var intersec = new Set([x for (x of this.adjacentes(vertice)) if (cores[i].has(x))]);
+				if(intersec.size == 0){
+					cores[i].add(vertice);
+					foiAdd = true;
+					break;
+				}
+			}
+			if(!foiAdd){
+				var novaCor = new Set();
+				novaCor.add(vertice);
+				cores.push(novaCor);
+			}
+		}
+		return cores.length;
 	}
 };
